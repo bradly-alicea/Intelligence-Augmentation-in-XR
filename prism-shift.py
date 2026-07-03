@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-## --- Simulation Parameters ---
+## Simulation Parameters
 num_particles = 50
 dimensions = 2  # 2D for easier visualization
 search_space_min = -10
@@ -65,22 +65,22 @@ for iteration in range(max_iterations):
                  (c1 * r1 * (pbest_positions - positions)) + \
                  (c2 * r2 * (gbest_position_perturbed - positions))
 
-    # Update positions
+    ## Update positions
     positions = positions + velocities
 
-    # Clamp positions to search space limits
+    ## Clamp positions to search space limits
     positions = np.clip(positions, search_space_min, search_space_max)
 
-    # Evaluate current fitness
+    ## Evaluate current fitness
     current_fitness = fitness_function(positions)
 
-    # Update personal best (pbest)
+    ## Update personal best (pbest)
     mask = current_fitness < pbest_fitness
     pbest_positions[mask] = positions[mask].copy()
     pbest_fitness[mask] = current_fitness[mask]
 
-    # Update global best (gbest)
-    # The actual global best is still based on the true fitness function, not the perceived one.
+    ## Update global best (gbest)
+    ## The actual global best is still based on the true fitness function, not the perceived one.
     if np.min(current_fitness) < gbest_fitness:
         gbest_index = np.argmin(current_fitness)
         gbest_position = positions[gbest_index].copy()
@@ -101,15 +101,15 @@ ax.set_title('Particle Swarm with Prism Illusion (Shifted Perception)')
 ax.set_xlabel('X-coordinate')
 ax.set_ylabel('Y-coordinate')
 
-# Plot the actual global best (true target) position
+## Plot the actual global best (true target) position
 ax.plot(0, 0, 'r*', markersize=15, label='Actual Target (True Global Best)')
 
-# Plot the perceived global best (illusory target) position
-# This is where particles *think* the target is due to the prism effect
+## Plot the perceived global best (illusory target) position
+## This is where particles *think* the target is due to the prism effect
 illusory_target = np.array([0,0]) + prism_shift_vector # Calculate the fixed illusory target for context
 ax.plot(illusory_target[0], illusory_target[1], 'k*', markersize=12, label='Illusory Target (Perceived Global Best)')
 
-# Initialize particle scatter plot
+## Initialize particle scatter plot
 scat = ax.scatter(history[0][:, 0], history[0][:, 1], color='blue', alpha=0.7, label='Particles')
 
 def update(frame):
